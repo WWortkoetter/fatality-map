@@ -4,104 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Highway to Hell</title>
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="myStyle.css" />
+    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <!-- <script src="FranklinCountyFatalities_test.js"></script> -->
     <script src="FranklinCountyFatalities_2016_test.js"></script>
-    <style>
-        #mapId {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 80%;
-            height: 100%;
-        }
-    </style>
+    <script src="main.js"></script>
 </head>
 
 <body>
-
-    <div id="mapId"></div>
-
-    <script>
-        "use strict";
-
-        // filter function (change value in quotes to applicable attribute in the JSON file)
-        function personalFilter(feature, layer) {
-            return (feature.properties["Stolen Value"] > 200);
-        }
-
-        function pointToCircle(feature, latlng) {
-
-            var fillColorVar = "";
-
-            if (feature.properties["Theft Hour"] > 6 && feature.properties["Theft Hour"] <= 16) {
-                fillColorVar = "yellow";
-            } else if (feature.properties["Theft Hour"] > 22 || feature.properties["Theft Hour"] <= 6) {
-                fillColorVar = "orange";
-            } else {
-                fillColorVar = "yellow";
-            }
-
-            var geojsonMarkerOptions = {
-                radius: 8,
-                fillColor: fillColorVar,
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-            };
-
-            var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
-
-            return circleMarker;
-        }
-
-        function addPopups(feature, layer) {
-            var list = "<dl><dt>" + feature.properties.Location + "</dt>"
-                + "<dd>Stolen Value: $" + feature.properties["Stolen Value"] + "</dd>"
-                ;
-            //this if statement used to check whether the feature has a property named "Location"
-            if (feature.properties && feature.properties.Location) {
-                layer.bindPopup(list);
-            }
-        }
-
-        /* initialize the map. 
-      setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
-    
-      setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
-      */
-
-        var map = L.map('mapId').setView([40.063643, -82.346497], 12);
-
-        //replace the code below from the Plain JavaScript from the map style you choose
-        //at http://leaflet-extras.github.io/leaflet-providers/preview/
-
-        // https: also suppported.
-        var OpenStreetMap_BlackAndWhite = L.tileLayer('https://api.mapbox.com/styles/v1/wwortkoetter/cj6zgn2fg1i3l2rptebgk0jrs/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3dvcnRrb2V0dGVyIiwiYSI6ImNqNnpnbDJkbDAwNWsycm15ZzI2dW1rc2cifQ.z6g-MJ7zdh699j4x_4U80Q', {
-            maxZoom: 19,
-            attribution: '&copy; <a href=”https://www.mapbox.com/about/maps/”>Mapbox</a> &copy; <a href=”http://www.openstreetmap.org/copyright”>OpenStreetMap</a>'
-        });
-
-        //change the varialbe "OpenStreetMap_BlackAndWhite" according to the map style you choose
-        //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 27 in this script
-        OpenStreetMap_BlackAndWhite.addTo(map);
-
-        var bikesLayerGroup = L.geoJSON(bikeThefts, {
-            onEachFeature: addPopups,
-            pointToLayer: pointToCircle/*,
-      filter: personalFilter*/
-        });
-
-        map.addLayer(bikesLayerGroup);
-        map.fitBounds(bikesLayerGroup.getBounds());
-
-    </script>
-
-
-    <h3>Wyatt Wortkoetter & Evan Kraus</h3>
-
+    <div id="mapDivId"></div>
 </body>
 
 </html>

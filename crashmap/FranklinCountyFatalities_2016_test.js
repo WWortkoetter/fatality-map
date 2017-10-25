@@ -1,4 +1,4 @@
-﻿var bikeThefts = {
+﻿var fatalities = {
   "type": "FeatureCollection",
   "features": [
     {

@@ -4,8 +4,8 @@ var myFunctionHolder = {};
 
 //declaring function 1
 myFunctionHolder.addPopups = function (feature, layer) {
-    if (feature.properties && feature.properties.Location) {
-    layer.bindPopup("<b>Address:</b>" + feature.properties.Location);
+    if (feature.properties && feature.geometry.coordinates) {
+    layer.bindPopup("<b>Address:</b>" + feature.geometry.coordinates);
     }
 }
     
@@ -32,12 +32,12 @@ window.onload = function () {
         attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
     }).addTo(mapObject);
     
-    // bikeThefts is the variable name we difined in Bike_Thefts_2011.js file. 
-    var bikesLayerGroup = L.geoJSON(bikeThefts, {
+    // fatalities is the variable name we difined in Bike_Thefts_2011.js file. 
+    var fatalsLayerGroup = L.geoJSON(fatalities, {
         onEachFeature: myFunctionHolder.addPopups,
         pointToLayer: myFunctionHolder.pointToCircle
     });
     
-    mapObject.addLayer(bikesLayerGroup);
-    mapObject.fitBounds(bikesLayerGroup.getBounds());
+    mapObject.addLayer(fatalsLayerGroup);
+    mapObject.fitBounds(fatalsLayerGroup.getBounds());
 };
