@@ -10,6 +10,8 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="plotly-latest.min.js"></script>
     <script src="main.js"></script>
 </head>
 
@@ -17,9 +19,68 @@
     <div id="mapDivId"></div>
     <div id="sidebarFrame">
         <div id="sidebarContent">
-            Sample Text
+            <div id="sidebarList">
+                Fatality Information
+                <ul>Location</ul>
+                <ul>Age</ul>
+                <ul>Victim Count</ul>
+            </div>
         </div>
     </div>
+    <div id="pcpFrame"></div>
+    <script>
+        // data/FARS_Data_FranklinCounty_AllVariables_2016.csv
+        // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
+        Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
+
+            function unpack(rows, key) {
+                return rows.map(function (row) {
+                    return row[key];
+                });
+            }
+
+            var data = [{
+                type: 'parcoords',
+                //pad: [80, 80, 80, 80],
+                line: {
+                    color: unpack(rows, 'sex'),
+                    //colorscale: [[0, 'grey'], [1, 'blue'], [2, 'pink'], [8, 'grey'], [9, 'grey']]
+                    colorscale: [[0, 'blue'], [0.5, 'blue'], [1, 'red']]
+                    //colorscale: 'Jet'
+                },
+
+                dimensions: [{
+                    range: [0, 3],
+                    label: 'sex (m=1,f=2)',
+                    values: unpack(rows, 'sex')
+                }, {
+                    range: [0, 99],
+                    label: 'age',
+                    values: unpack(rows, 'age')
+                }, {
+                    //constraintrange: [0, 99],
+                    range: [0, 4],
+                    label: 'numfatal',
+                    values: unpack(rows, 'numfatal')
+                }, {
+                    label: 'BAC',
+                    range: [0, 500],
+                    values: unpack(rows, 'alcres')
+                }, {
+                    label: 'holiday',
+                    range: [-1, 10],
+                    values: unpack(rows, 'holiday')
+                }]
+            }];
+
+            var layout = {
+                //width: 800
+            };
+
+            Plotly.plot('pcpFrame', data, layout);
+
+        });
+    </script>
 </body>
 
 </html>
