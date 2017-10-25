@@ -5,7 +5,9 @@ var myFunctionHolder = {};
 //declaring function 1
 myFunctionHolder.addPopups = function (feature, layer) {
     if (feature.properties && feature.geometry.coordinates) {
-    layer.bindPopup("<b>Address:</b>" + feature.geometry.coordinates);
+    layer.bindPopup(
+        "<b>Location: </b>" + feature.geometry.coordinates
+    );
     }
 }
     

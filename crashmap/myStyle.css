@@ -5,3 +5,20 @@
     width: 80%;
     height: 100%;
 }
+
+#sidebarFrame {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20%;
+    height: 100%;
+    margin: 0 0 0 0;
+    padding: 0;
+    background-color: rgb(112, 112, 112);
+}
+
+#sidebarContent {
+    position: relative;
+    padding: 5px;
+    color: greenyellow;
+}
