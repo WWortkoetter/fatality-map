@@ -4,9 +4,9 @@ var myFunctionHolder = {};
 
 //declaring function 1
 myFunctionHolder.addPopups = function (feature, layer) {
-    if (feature.properties && feature.geometry.coordinates) {
+    if (feature.properties && feature.properties.age) {
     layer.bindPopup(
-        "<b>Location: </b>" + feature.geometry.coordinates
+        "<b>Location: </b>" + feature.properties.trafid1
     );
     }
 }
@@ -15,7 +15,7 @@ myFunctionHolder.addPopups = function (feature, layer) {
 myFunctionHolder.pointToCircle = function (feature, latlng) {
     var geojsonMarkerOptions = {
         radius: 8,
-        fillColor: "yellow",
+        fillColor: "greenyellow",
         color: "#000",
         weight: 1,
         opacity: 1,
