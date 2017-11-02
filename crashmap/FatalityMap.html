@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="myStyle.css" />
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC85SE5VtuQSxuT0F06S7OwQgG1QQy6dzc&libraries=visualization"></script>
     <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="plotly-latest.min.js"></script>
@@ -35,20 +34,25 @@
 
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
-                        <!-- <div id="floating-panel">
-                            <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-                            <button onclick="changeGradient()">Change gradient</button>
-                            <button onclick="changeRadius()">Change radius</button>
-                            <button onclick="changeOpacity()">Change opacity</button>
-                        </div> -->
-
-                        <div id="heatmapToggle">
+                        
+                        <div id="heatmapToggle" state=0>
                             <div class="cntr">
                                 <span>
-                                    <a>Heatmap</a>
+                                    <a>Toggle Heatmap</a>
                                     <div class="row press">
                                         <input type="checkbox" id="unchecked" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
+                                        <script>
+                                            var button = document.getElementById("heatmapToggle");
+                                            button.onclick = function() {
+                                                switch(document.getElementById("heatmapToggle").getAttribute("state")) {
+                                                    case 0:
+                                                        document.getElementById("heatmapToggle").setAttribute("state", 1);
+                                                    case 1:
+                                                        document.getElementById("heatmapToggle").setAttribute("state", 0);
+                                                }                                            
+                                            };
+                                        </script>
                                     </div>
                                 </span>
                             </div>
@@ -84,7 +88,7 @@
                             },
 
                             dimensions: [{
-                                range: [0, 3],
+                                range: [1, 2],
                                 label: 'sex (m=1,f=2)',
                                 values: unpack(rows, 'sex')
                             }, {
@@ -108,7 +112,7 @@
                         }];
 
                         var layout = {
-                            //width: 800
+                            // put variables here to change pcp size ('height: 500px;' etc)
                         };
 
                         Plotly.plot('pcpFrame', data, layout);
