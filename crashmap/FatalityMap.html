@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name ="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Highway to Hell</title>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
@@ -12,27 +12,45 @@
     <link rel="stylesheet" href="myStyle.css" />
     <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC85SE5VtuQSxuT0F06S7OwQgG1QQy6dzc&libraries=visualization"></script>
     <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="plotly-latest.min.js"></script>
+    <script src="heatmap.js"></script>
+    <script src="leaflet-heatmap.js"></script>
+    <script src="tmp.js"></script>
     <script src="main.js"></script>
 </head>
 
 <body>
     <div class="pure-container" data-effect="pure-effect-slide">
-        <input type="checkbox" id="pure-toggle-right" class="pure-toggle" data-toggle="right"/>
-        <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right"><span class="pure-toggle-icon"></span></label>
+        <input type="checkbox" id="pure-toggle-right" class="pure-toggle" data-toggle="right" />
+        <label class="pure-toggle-label" for="pure-toggle-right" data-toggle-label="right">
+            <span class="pure-toggle-icon"></span>
+        </label>
 
         <nav class="pure-drawer" data-position="right">
             <p style="padding: 0 0; margin: 0;">
-                
+
 
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
-                        <div class="cntr">
-                            <div class="row press">
-                                <input type="checkbox" id="unchecked" class="cbx hidden"/>
-                                <label for="unchecked" class="lbl"></label>    
+                        <!-- <div id="floating-panel">
+                            <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+                            <button onclick="changeGradient()">Change gradient</button>
+                            <button onclick="changeRadius()">Change radius</button>
+                            <button onclick="changeOpacity()">Change opacity</button>
+                        </div> -->
+
+                        <div id="heatmapToggle">
+                            <div class="cntr">
+                                <span>
+                                    <a>Heatmap</a>
+                                    <div class="row press">
+                                        <input type="checkbox" id="unchecked" class="cbx hidden" />
+                                        <label for="unchecked" class="lbl"></label>
+                                    </div>
+                                </span>
                             </div>
                         </div>
                         <div id="sidebarList">
@@ -48,13 +66,13 @@
                     // data/FARS_Data_FranklinCounty_AllVariables_2016.csv
                     // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
                     Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
-            
+
                         function unpack(rows, key) {
                             return rows.map(function (row) {
                                 return row[key];
                             });
                         }
-            
+
                         var data = [{
                             type: 'parcoords',
                             //pad: [80, 80, 80, 80],
@@ -64,7 +82,7 @@
                                 colorscale: [[0, 'blue'], [0.5, 'blue'], [1, 'red']]
                                 //colorscale: 'Jet'
                             },
-            
+
                             dimensions: [{
                                 range: [0, 3],
                                 label: 'sex (m=1,f=2)',
@@ -88,18 +106,19 @@
                                 values: unpack(rows, 'holiday')
                             }]
                         }];
-            
+
                         var layout = {
                             //width: 800
                         };
-            
+
                         Plotly.plot('pcpFrame', data, layout);
-            
                     });
                 </script>
+
+
             </p>
-        </nav>   
-        
+        </nav>
+
         <div class="pure-pusher-container">
             <div class="pure-pusher">
                 <p style="width: 100%; height: 100%; margin: 0;">
@@ -107,8 +126,8 @@
                 </p>
             </div>
         </div>
-        
-        <label class="pure-overlay" for="pure-toggle-right" data-overlay="left"></label> 
+
+        <label class="pure-overlay" for="pure-toggle-right" data-overlay="left"></label>
     </div>
 </body>
 

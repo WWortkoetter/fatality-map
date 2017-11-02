@@ -22,7 +22,6 @@
     transition: all 0.3s ease;
   }
   .lbl:active:after {
-  /*transform scale(1.15, .85)*/
     transform: scale(1, 1);
   }
   .cbx:checked ~ label {
@@ -40,13 +39,19 @@
     background: #bcbdbc;
   }
   .cntr {
-    position: absolute;
-    top: 5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    padding-left: 15%;
+    padding-right: 40%;
+    /*transform: translate(-50%, -50%);*/
   }
   .press {
-    margin-bottom: 40px;
+    position: relative;
+    /*left: 45%;*/
+    margin-bottom: 45px;
+    float: right;
+
+    /*margin-top: 36px;*/
+    /*left: 50%;*/
   }
   .hidden {
     display: none;

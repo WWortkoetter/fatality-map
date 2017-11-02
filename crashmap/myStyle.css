@@ -6,12 +6,19 @@
     height: 100%;
 }
 
+/* temporary map div */
+#map {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
 #sidebarFrame {
     position: relative;
     right: 0;
     top: 0;
-    /*width: 20%;
-    height: 70%;*/
     margin: 0 0 0 0;
     padding: 0;
     /*background-color: rgb(112, 112, 112);*/
@@ -23,12 +30,41 @@
     color: greenyellow;
 }
 
+#heatmapToggle {
+    position: relative;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+#heatmapToggle a{
+    padding-right: 10px;
+}
+
 #pcpFrame {
     position: relative;
-    /*right: 0;
-    bottom: 0;*/
-    /*width: 20%;
-    height: 30%;*/
     background-color: lightgray;
-    /*background-color: green;*/
 }
+
+/* Google styling */
+#floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+  }
+  #floating-panel {
+    background-color: #fff;
+    border: 1px solid #999;
+    left: 25%;
+    padding: 5px;
+    position: absolute;
+    top: 10px;
+    z-index: 5;
+  }
