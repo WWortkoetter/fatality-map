@@ -33,7 +33,7 @@
   }
   .cbx:disabled ~ label {
     background: #d5d5d5;
-    pointer-events: none;
+    pointer-events: auto;
   }
   .cbx:disabled ~ label:after {
     background: #bcbdbc;

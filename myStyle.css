@@ -26,13 +26,14 @@ dt {
     color: #adff2f;
 }
 
-#heatmapToggle {
+#switch {
     position: relative;
     margin-top: 35px;
     margin-bottom: 35px;
+    width: 
 }
 
-#heatmapToggle a{
+#switch a{
     padding-right: 10px;
 }
 

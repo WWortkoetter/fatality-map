@@ -29,6 +29,8 @@ myFunctionHolder.pointToCircle = function (feature, latlng) {
     return circleMarker;
 }
 
+
+
 //execute only when window is fully loaded
 window.onload = function () {
     var mapObject = L.map('mapDivId').setView([39.961, -82.998], 11);
@@ -68,14 +70,18 @@ window.onload = function () {
     };
 
     var heatmapLayer = new HeatmapOverlay(cfg);
-    var heatmapLayerGroup = L.geoJSON().addLayer(heatmapLayer);
+    heatmapLayer.setData(fatalitiesHeatmapData);
 
-    var button = document.getElementById("heatmapToggle");
-
-    button.onclick = function() {
-        heatmapLayer.setData(fatalitiesHeatmapData);
-        heatmapLayerGroup = L.geoJSON().addLayer(heatmapLayer);
-        mapObject.addLayer(heatmapLayer);
+    var toggle = document.getElementById("heatmapToggle");
+    toggle.onclick = function() {
+        if (!document.getElementById("unchecked").checked){
+            mapObject.addLayer(heatmapLayer);
+            document.getElementById("unchecked").checked = true;
+        }
+        else {
+            mapObject.removeLayer(heatmapLayer);
+            document.getElementById("unchecked").checked = false;
+        }
     }
 
 

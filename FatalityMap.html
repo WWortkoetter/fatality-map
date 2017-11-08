@@ -35,23 +35,14 @@
 
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
-                        
-                        <div id="heatmapToggle" state=0>
+
+                        <div id="switch">
                             <div class="cntr">
-                                <span>
-                                    <a>Toggle Heatmap</a>
+                                <a>Toggle Heatmap</a>
+                                <span id="heatmapToggle"> 
                                     <div class="row press">
                                         <input type="checkbox" id="unchecked" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
-                                        <script>
-                                            var button = document.getElementById("heatmapToggle");
-                                            button.onclick = function() {
-                                                if (button.getAttribute("state") == 0){
-                                                    button.setAttribute("state", 1);
-                                                }
-                                                
-                                            };
-                                        </script>
                                     </div>
                                 </span>
                             </div>
@@ -66,57 +57,57 @@
                 </div>
                 <div id="pcpFrame"></div>
                 <script>
-                    // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
-                    // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
-                    // data/FARS_Ohio_2001-2016.csv
-                    Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
+                                    // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
+                                    // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
+                                    // data/FARS_Ohio_2001-2016.csv
+                                    Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
 
-                        function unpack(rows, key) {
-                            return rows.map(function (row) {
-                                return row[key];
-                            });
-                        }
+                                        function unpack(rows, key) {
+                                            return rows.map(function (row) {
+                                                return row[key];
+                                            });
+                                        }
 
-                        var data = [{
-                            type: 'parcoords',
-                            //pad: [80, 80, 80, 80],
-                            line: {
-                                color: unpack(rows, 'sex'),
-                                //colorscale: [[0, 'grey'], [1, 'blue'], [2, 'pink'], [8, 'grey'], [9, 'grey']]
-                                colorscale: [[0, 'blue'], [0.5, 'blue'], [1, 'red']]
-                                //colorscale: 'Jet'
-                            },
+                                        var data = [{
+                                            type: 'parcoords',
+                                            //pad: [80, 80, 80, 80],
+                                            line: {
+                                                color: unpack(rows, 'sex'),
+                                                //colorscale: [[0, 'grey'], [1, 'blue'], [2, 'pink'], [8, 'grey'], [9, 'grey']]
+                                                colorscale: [[0, 'blue'], [0.5, 'blue'], [1, 'red']]
+                                                //colorscale: 'Jet'
+                                            },
 
-                            dimensions: [{
-                                range: [1, 2],
-                                label: 'sex (m=1,f=2)',
-                                values: unpack(rows, 'sex')
-                            }, {
-                                range: [0, 99],
-                                label: 'age',
-                                values: unpack(rows, 'age')
-                            }, {
-                                //constraintrange: [0, 99],
-                                range: [0, 4],
-                                label: 'numfatal',
-                                values: unpack(rows, 'numfatal')
-                            }, {
-                                label: 'BAC',
-                                range: [0, 500],
-                                values: unpack(rows, 'alcres')
-                            }, {
-                                label: 'day of week',
-                                range: [1, 7],
-                                values: unpack(rows, 'dayofweek')
-                            }]
-                        }];
+                                            dimensions: [{
+                                                range: [1, 2],
+                                                label: 'sex (m=1,f=2)',
+                                                values: unpack(rows, 'sex')
+                                            }, {
+                                                range: [0, 99],
+                                                label: 'age',
+                                                values: unpack(rows, 'age')
+                                            }, {
+                                                //constraintrange: [0, 99],
+                                                range: [0, 4],
+                                                label: 'numfatal',
+                                                values: unpack(rows, 'numfatal')
+                                            }, {
+                                                label: 'BAC',
+                                                range: [0, 500],
+                                                values: unpack(rows, 'alcres')
+                                            }, {
+                                                label: 'day of week',
+                                                range: [1, 7],
+                                                values: unpack(rows, 'dayofweek')
+                                            }]
+                                        }];
 
-                        var layout = {
-                            // put variables here to change pcp size ('height: 500px;' etc)
-                        };
+                                        var layout = {
+                                            // put variables here to change pcp size ('height: 500px;' etc)
+                                        };
 
-                        Plotly.plot('pcpFrame', data, layout);
-                    });
+                                        Plotly.plot('pcpFrame', data, layout);
+                                    });
                 </script>
 
 
