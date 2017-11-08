@@ -16,9 +16,9 @@
     <!-- Scripts -->
     <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>
     <script src="heatmap-data.js"></script>
+    <!-- <script src="FARS_Ohio_2001-2016.js"></script> -->
 
     <script src="leaflet/leaflet.js"></script>
-    <!-- <script src="FARS_Ohio_2001-2016.js"></script> -->
     <script src="leaflet/leaflet.markercluster-src.js"></script>
     <script src="heatmap.js"></script>
     <script src="leaflet-heatmap.js"></script>
@@ -108,12 +108,6 @@
                                 range: [0, 99],
                                 label: 'age',
                                 values: unpack(rows, 'age')
-                            }, {
-                                range: [0, 2],
-                                label: 'race',
-                                tickvals: [0, 1, 2],
-                                ticktext: ['N/A', 'White', 'Black'],
-                                values: unpack(rows, 'race')
                             }, {
                                 //constraintrange: [0, 99],
                                 range: [0, 4],
