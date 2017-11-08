@@ -11,6 +11,7 @@ myFunctionHolder.addPopups = function (feature, layer) {
     else {
         survived = 'Deceased';
     }
+
     if (feature.properties) {
         layer.bindPopup(
             "<dl><dt>Location: </dt>" + feature.properties['trafid1']
@@ -47,8 +48,7 @@ window.onload = function () {
         attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
     }).addTo(mapObject);
 
-    // fatalities is the variable name we defined in point data file. 
-
+    // fatality points
     var fatalsLayerGroup = L.geoJSON(fatalities, {
         onEachFeature: myFunctionHolder.addPopups,
         pointToLayer: myFunctionHolder.pointToCircle
@@ -60,7 +60,6 @@ window.onload = function () {
     // clusters
     var clusters = L.markerClusterGroup();
     clusters.addLayer(fatalsLayerGroup);
-    //mapObject.addLayer(clusters);
 
     // button to toggle clusters
     var clustertoggle = document.getElementById("clusterToggle");
