@@ -46,12 +46,10 @@
                                         <script>
                                             var button = document.getElementById("heatmapToggle");
                                             button.onclick = function() {
-                                                switch(document.getElementById("heatmapToggle").getAttribute("state")) {
-                                                    case 0:
-                                                        document.getElementById("heatmapToggle").setAttribute("state", 1);
-                                                    case 1:
-                                                        document.getElementById("heatmapToggle").setAttribute("state", 0);
-                                                }                                            
+                                                if (button.getAttribute("state") == 0){
+                                                    button.setAttribute("state", 1);
+                                                }
+                                                
                                             };
                                         </script>
                                     </div>
@@ -68,10 +66,10 @@
                 </div>
                 <div id="pcpFrame"></div>
                 <script>
-                    // data/FARS_Data_FranklinCounty_AllVariables_2016.csv
                     // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
                     // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
-                    Plotly.d3.csv('data/FARS_Ohio_2001-2016.csv', function (err, rows) {
+                    // data/FARS_Ohio_2001-2016.csv
+                    Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
 
                         function unpack(rows, key) {
                             return rows.map(function (row) {
@@ -107,9 +105,9 @@
                                 range: [0, 500],
                                 values: unpack(rows, 'alcres')
                             }, {
-                                label: 'holiday',
-                                range: [-1, 10],
-                                values: unpack(rows, 'holiday')
+                                label: 'day of week',
+                                range: [1, 7],
+                                values: unpack(rows, 'dayofweek')
                             }]
                         }];
 
