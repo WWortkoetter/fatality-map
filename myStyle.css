@@ -26,6 +26,14 @@ dt {
     color: #adff2f;
 }
 
+#author {
+    font-size: 10pt;
+    color: #adff2f;
+    position: absolute;
+    bottom: 0;
+    padding: 0 0 5px 5px;
+}
+
 #switch {
     position: relative;
     margin-top: 35px;
