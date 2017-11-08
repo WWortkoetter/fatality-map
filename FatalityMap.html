@@ -13,11 +13,12 @@
     <!-- Scripts -->
     <script src="leaflet/leaflet.js"></script>
     <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>
+    <!-- <script src="FARS_Ohio_2001-2016.js"></script> -->
     <script src="d3/d3.min.js"></script>
     <script src="plotly-latest.min.js"></script>
     <script src="heatmap.js"></script>
     <script src="leaflet-heatmap.js"></script>
-    <script src="tmp.js"></script>
+    <script src="heatmap-data.js"></script>
     <script src="main.js"></script>
 </head>
 
@@ -69,7 +70,8 @@
                 <script>
                     // data/FARS_Data_FranklinCounty_AllVariables_2016.csv
                     // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
-                    Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
+                    // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
+                    Plotly.d3.csv('data/FARS_Ohio_2001-2016.csv', function (err, rows) {
 
                         function unpack(rows, key) {
                             return rows.map(function (row) {
