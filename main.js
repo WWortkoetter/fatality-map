@@ -4,13 +4,20 @@ var myFunctionHolder = {};
 
 //declaring function 1
 myFunctionHolder.addPopups = function (feature, layer) {
+    var survived = '';
+    if (feature.properties['dthday'] == -1 || feature.properties['dthday'] == 88 || feature.properties['dthday'] == 99){
+        survived = 'Lived';
+    } 
+    else {
+        survived = 'Deceased';
+    }
     if (feature.properties /*&& feature.properties.age*/) {
         layer.bindPopup(
             "<dl><dt>Location: </dt>" + feature.properties['trafid1']
             + "<dt>Number Killed: </dt>" + feature.properties['numfatal']
             + "<dt>Age: </dt>" + feature.properties['age']
-            + "<dt>Coordinates </dt>" + feature.geometry['coordinates']
             + "<dt>Year: </dt>" + feature.properties['caseyear']
+            + "<dt>Status: </dt>" + survived
         );
     }
 }
@@ -50,6 +57,14 @@ window.onload = function () {
     mapObject.addLayer(fatalsLayerGroup);
     mapObject.fitBounds(fatalsLayerGroup.getBounds());
 
+    // clusters
+    var clusters = L.markerClusterGroup();
+    clusters.addLayer(fatalsLayerGroup);
+    mapObject.addLayer(clusters);
+
+    // heatmap
+
+    // heatmap config
     var cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
@@ -72,6 +87,7 @@ window.onload = function () {
     var heatmapLayer = new HeatmapOverlay(cfg);
     heatmapLayer.setData(fatalitiesHeatmapData);
 
+    // button to toggle heatmap
     var toggle = document.getElementById("heatmapToggle");
     toggle.onclick = function() {
         if (!document.getElementById("unchecked").checked){
@@ -84,18 +100,5 @@ window.onload = function () {
         }
     }
 
-
-    // if (document.getElementById("heatmapToggle").getAttribute("state") == 0) {
-    //     print()
-    //     mapObject.removeLayer(heatmapLayerGroup);
-    // }
-    // else {
-    //     heatmapLayer.setData(fatalitiesHeatmapData);
-    //     heatmapLayerGroup = L.geoJSON().addLayer(heatmapLayer);
-    //     mapObject.addLayer(heatmapLayer);
-    // }
-
-    // var heatmapLayer = new HeatmapOverlay(cfg);
-    // heatmapLayer.setData(fatalitiesHeatmapData);
-    // mapObject.addLayer(heatmapLayer);
+    
 };
