@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="toggle-button.css" />
     <link rel="stylesheet" href="myStyle.css" />
     <!-- Scripts -->
-    <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>    
+    <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script>
     <script src="heatmap-data.js"></script>
-    
+
     <script src="leaflet/leaflet.js"></script>
     <!-- <script src="FARS_Ohio_2001-2016.js"></script> -->
     <script src="leaflet/leaflet.markercluster-src.js"></script>
@@ -45,18 +45,32 @@
                                 <a>Toggle Heatmap</a>
                                 <span id="heatmapToggle">
                                     <div class="row press">
-                                        <input type="checkbox" id="unchecked" class="cbx hidden" />
+                                        <input type="checkbox" id="unchecked1" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
                                     </div>
                                 </span>
                             </div>
                         </div>
+
+                        <div id="switch">
+                            <div class="cntr">
+                                <a>Toggle Clusters</a>
+                                <span id="clusterToggle">
+                                    <div class="row press">
+                                        <input type="checkbox" id="unchecked2" class="cbx hidden" />
+                                        <label for="unchecked" class="lbl"></label>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
                         <div id="sidebarList">
                             Fatality Information
                             <ul>Location</ul>
                             <ul>Age</ul>
                             <ul>Victim Count</ul>
                         </div>
+
                     </div>
                 </div>
                 <div id="pcpFrame"></div>
@@ -120,7 +134,8 @@
 
                         var layout = {
                             // put variables here to change pcp size ('height: 500px;' etc)
-                            margin: {r:40, t:75, b:75, l:40}
+                            title: 'Parallel Coordinate Plot',
+                            margin: { r: 40, t: 100, b: 50, l: 40 }
                         };
 
                         Plotly.plot('pcpFrame', data, layout);

@@ -11,7 +11,7 @@ myFunctionHolder.addPopups = function (feature, layer) {
     else {
         survived = 'Deceased';
     }
-    if (feature.properties /*&& feature.properties.age*/) {
+    if (feature.properties) {
         layer.bindPopup(
             "<dl><dt>Location: </dt>" + feature.properties['trafid1']
             + "<dt>Number Killed: </dt>" + feature.properties['numfatal']
@@ -60,7 +60,22 @@ window.onload = function () {
     // clusters
     var clusters = L.markerClusterGroup();
     clusters.addLayer(fatalsLayerGroup);
-    mapObject.addLayer(clusters);
+    //mapObject.addLayer(clusters);
+
+    // button to toggle clusters
+    var clustertoggle = document.getElementById("clusterToggle");
+    clustertoggle.onclick = function() {
+        if (!document.getElementById("unchecked2").checked){
+            mapObject.addLayer(clusters);
+            document.getElementById("unchecked2").checked = true;
+        }
+        else {
+            mapObject.removeLayer(clusters);
+            mapObject.removeLayer(fatalsLayerGroup);
+            mapObject.addLayer(fatalsLayerGroup);
+            document.getElementById("unchecked2").checked = false;
+        }
+    }
 
     // heatmap
 
@@ -68,7 +83,7 @@ window.onload = function () {
     var cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
-        "radius": 0.015,
+        "radius": .01,
         "maxOpacity": .8,
         // scales the radius based on map zoom
         "scaleRadius": true,
@@ -88,15 +103,15 @@ window.onload = function () {
     heatmapLayer.setData(fatalitiesHeatmapData);
 
     // button to toggle heatmap
-    var toggle = document.getElementById("heatmapToggle");
-    toggle.onclick = function() {
-        if (!document.getElementById("unchecked").checked){
+    var heattoggle = document.getElementById("heatmapToggle");
+    heattoggle.onclick = function() {
+        if (!document.getElementById("unchecked1").checked){
             mapObject.addLayer(heatmapLayer);
-            document.getElementById("unchecked").checked = true;
+            document.getElementById("unchecked1").checked = true;
         }
         else {
             mapObject.removeLayer(heatmapLayer);
-            document.getElementById("unchecked").checked = false;
+            document.getElementById("unchecked1").checked = false;
         }
     }
 

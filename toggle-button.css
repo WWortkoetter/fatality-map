@@ -46,12 +46,7 @@
   }
   .press {
     position: relative;
-    /*left: 45%;*/
-    margin-bottom: 45px;
     float: right;
-
-    /*margin-top: 36px;*/
-    /*left: 50%;*/
   }
   .hidden {
     display: none;
