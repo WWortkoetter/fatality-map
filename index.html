@@ -40,6 +40,7 @@
 
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
+                        <h1>Crash Mapper</h1>
                         
 
                         <div id="switch">
@@ -60,6 +61,18 @@
                                 <span id="clusterToggle">
                                     <div class="row press">
                                         <input type="checkbox" id="unchecked2" class="cbx hidden" />
+                                        <label for="unchecked" class="lbl"></label>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="switch">
+                            <div class="cntr">
+                                <a>Toggle Satellite</a>
+                                <span id="satToggle">
+                                    <div class="row press">
+                                        <input type="checkbox" id="unchecked3" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
                                     </div>
                                 </span>
@@ -93,9 +106,7 @@
                             //pad: [80, 80, 80, 80],
                             line: {
                                 color: unpack(rows, 'sex'),
-                                //colorscale: [[0, 'grey'], [1, 'blue'], [2, 'pink'], [8, 'grey'], [9, 'grey']]
                                 colorscale: [[0, 'blue'], [0.1, 'red'], [0.5, 'red'], [1, 'red']]
-                                //colorscale: 'Jet'
                             },
 
                             dimensions: [{
@@ -112,12 +123,14 @@
                                 //constraintrange: [0, 99],
                                 range: [0, 4],
                                 label: 'numfatal',
+                                tickvals: [0, 1, 2, 3, 4],
+                                ticktext: ['0', '1', '2', '3', '4'],
                                 values: unpack(rows, 'numfatal')
                             }, {
                                 range: [0, 350],
                                 label: 'BAC %',
-                                tickvals: [50, 100, 150, 200, 250, 300, 350],
-                                ticktext: ['.05', '.10', '.15', '.20', '.25', '.30', '.35'],
+                                tickvals: [0, 50, 100, 150, 200, 250, 300, 350],
+                                ticktext: ['0', '.05', '.10', '.15', '.20', '.25', '.30', '.35'],
                                 values: unpack(rows, 'alcres')
                             }, {
                                 range: [1, 7],

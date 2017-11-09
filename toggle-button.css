@@ -25,10 +25,14 @@
     transform: scale(1, 1);
   }
   .cbx:checked ~ label {
-    background: #6fbeb5;
+    /*background: #6fbeb5;*/
+    /*background: rgb(66, 97, 148);*/
+    background: #6b9c1b;
   }
   .cbx:checked ~ label:after {
     left: 20px;
+    /*background: #adff2f;*/
+    /*background: #4285F4;*/
     background: #adff2f;
   }
   .cbx:disabled ~ label {
