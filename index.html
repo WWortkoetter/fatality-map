@@ -5,7 +5,7 @@
     <!-- Coded by Wyatt Wortkoetter -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Crash Mapper v0.1</title>
+    <title>Crash Mapper v0.2</title>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="leaflet/leaflet.css" />
     <link rel="stylesheet" href="leaflet/MarkerCluster.css" />
@@ -40,8 +40,8 @@
 
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
-                        <h1>Crash Mapper</h1>
-                        
+                        <h1>Crash Mapper v0.2</h1>
+
 
                         <div id="switch">
                             <div class="cntr">
@@ -80,10 +80,41 @@
                         </div>
 
                         <div id="sidebarList">
-                            Fatality Information
-                            <ul id="info_loc">Location: </ul>
-                            <ul id="info_age">Age: </ul>
-                            <ul id="info_vic">Victim Count: </ul>
+                            <h3>
+                                <b>Fatality Information</b>
+                            </h3>
+                            <div id="leftList">
+                                <div id="info_casenum">
+                                    <b>Case Number: </b>
+                                </div>
+                                <div id="info_date">
+                                    <b>Date: </b>
+                                </div>
+                                <div id="info_loc">
+                                    <b>Location: </b>
+                                </div>
+
+                                <div id="info_numfatal">
+                                    <b>Number of Fatalities: </b>
+                                </div>
+                                <div id="info_weather">
+                                    <b>Weather: </b>
+                                </div>
+                            </div>
+                            <div id="rightList">
+                                <div id="info_age">
+                                    <b>Age: </b>
+                                </div>
+                                <div id="info_race">
+                                    <b>Race: </b>
+                                </div>
+                                <div id="info_sex">
+                                    <b>Sex: </b>
+                                </div>
+                                <div id="info_bac">
+                                    <b>BAC: </b>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -118,6 +149,8 @@
                             }, {
                                 range: [0, 99],
                                 label: 'age',
+                                tickvals: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                                ticktext: ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
                                 values: unpack(rows, 'age')
                             }, {
                                 //constraintrange: [0, 99],
@@ -127,10 +160,10 @@
                                 ticktext: ['0', '1', '2', '3', '4'],
                                 values: unpack(rows, 'numfatal')
                             }, {
-                                range: [0, 350],
+                                range: [0, 1000],
                                 label: 'BAC %',
-                                tickvals: [0, 50, 100, 150, 200, 250, 300, 350],
-                                ticktext: ['0', '.05', '.10', '.15', '.20', '.25', '.30', '.35'],
+                                tickvals: [0, 50, 100, 150, 200, 250, 300, 350, 1000],
+                                ticktext: ['0', '.05', '.10', '.15', '.20', '.25', '.30', '.35', 'N/A'],
                                 values: unpack(rows, 'alcres')
                             }, {
                                 range: [1, 7],

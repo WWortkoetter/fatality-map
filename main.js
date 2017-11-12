@@ -1,5 +1,58 @@
 "use strict";
 
+function personalFilter (feature, layer){
+    return (feature.properties["dthday"] >= 1 && feature.properties["dthday"] <= 31);
+  }
+
+var weatherdict = {
+    "-1": "Blank",
+    "0": "No Additional Atmospheric Conditions",
+    "1": "Clear",
+    "2": "Rain",
+    "3": "Sleet or Hail",
+    "4": "Snow",
+    "5": "Fog, Smog, Smoke",
+    "6": "Severe Crosswinds",
+    "7": "Blowing Sand, Soil, Dirt",
+    "8": "Other",
+    "10": "Cloudy",
+    "11": "Blowing Snow",
+    "12": "Freezing Rain or Drizzle",
+    "98": "Not Reported",
+    "99": "Unknown"
+}
+
+var racedict = {
+    "-1": "Blank",
+    "0": "Not a fatality (N/A)",
+    "1": "White",
+    "2": "Black",
+    "3": "American Indian",
+    "4": "Chinese",
+    "5": "Japanese",
+    "6": "Hawaiian",
+    "7": "Filipino",
+    "18": "Asian Indian",
+    "19": "Other Indian",
+    "28": "Korean",
+    "38": "Samoan",
+    "48": "Vietnamese",
+    "58": "Guamanian",
+    "68": "Other Asian or Pacific Islander",
+    "78": "Asian or Pacific Islander",
+    "97": "Multiple Races",
+    "98": "All other races",
+    "99": "Unknown"
+}
+
+var genderdict = {
+    "-1": "Blank",
+    "1": "Male",
+    "2": "Female",
+    "8": "Not Reported",
+    "9": "Unknown"
+}
+
 //execute only when window is fully loaded
 window.onload = function () {
     var myFunctionHolder = {};
@@ -22,65 +75,16 @@ window.onload = function () {
             years = feature.properties['age'];
         }
     
-        var gender = '';
-        switch(feature.properties.sex){
-            case 1:
-                gender = 'Male';
-                break;
-            case 2:
-                gender = 'Female';
-                break;
-            default:
-                gender = 'Unknown';
-        }
-
-        var race = '';
-        switch(feature.properties.race){
-            case -1:
-                race = 'N/A';
-                break;
-            case 0:
-                race = 'N/A';
-                break;
-            case 1:
-                if (feature.properties.hispanic >= 1 && feature.properties.hispanic <= 6){
-                    race = 'Hispanic';
-                }
-                else {
-                    race = 'White';
-                }
-                break;
-            case 2:
-                race = 'Black';
-                break;
-            case 18:
-                race = 'Asian Indian';
-                break;
-            case 19:
-                race = 'Other Indian';
-                break;
-            case 68:
-                race = 'Other Asian';
-                break;
-            case 98:
-                race = 'Other';
-                break;
-            case 99:
-                race = 'Unknown';
-                break;
-        }
-    
         if (feature.properties) {
             layer.bindPopup(
-                "<dl><dt>Date of accident: </dt>" + feature.properties.accmon + " / " + feature.properties.accday + " / " + feature.properties.caseyear
-                + "<dt>Location: </dt>" + feature.properties.trafid1
-                + "<dt>Number Killed: </dt>" + feature.properties.numfatal
-                + "<dt>Age: </dt>" + years
-                + "<dt>Sex: </dt>" + gender
-                + "<dt>Race: </dt>" + race
-                + "<dt>Status: </dt>" + survived
+                "<b>Date of accident: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear
+                + "<br><b>Location: </b>" + feature.properties.trafid1
+                + "<br><b>Number Killed: </b>" + feature.properties.numfatal
+                + "<br><b>Age: </b>" + years
+                + "<br><b>Sex: </b>" + genderdict[feature.properties.sex]
+                + "<br><b>Race: </b>" + racedict[feature.properties.race]
+                + "<br><b>Status: </b>" + survived
             );
-            //document.getElementById("info_loc").innerHTML = "Location: " + feature.properties.trafid1;
         }
     }
     
@@ -95,6 +99,28 @@ window.onload = function () {
             fillOpacity: .8
         };
         var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+        circleMarker.on('click', function(){
+            document.getElementById("info_casenum").innerHTML = "<b>Case Number: </b>" + feature.properties.casenum;
+            document.getElementById("info_date").innerHTML = "<b>Date: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear;
+            document.getElementById("info_loc").innerHTML = "<b>Location: </b>" + feature.properties.trafid1;
+            document.getElementById("info_age").innerHTML = "<b>Age: </b>" + feature.properties.age;
+            document.getElementById("info_numfatal").innerHTML = "<b>Number of Fatalities: </b>" + feature.properties.numfatal;
+            document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
+            document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
+            document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
+            if (feature.properties.alcres >= 100){
+                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
+            }
+            else if (feature.properties.alcres >= 10){
+                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.0" + feature.properties.alcres + "%";
+            }
+            else if (feature.properties.alcres == 0){
+                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0%";
+            }
+            else {
+                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.00" + feature.properties.alcres + "%";
+            }
+        })
         return circleMarker;
     }
 
@@ -135,12 +161,9 @@ window.onload = function () {
     // fatality points
     var fatalsLayerGroup = L.geoJSON(fatalities, {
         onEachFeature: myFunctionHolder.addPopups,
-        pointToLayer: myFunctionHolder.pointToCircle
+        pointToLayer: myFunctionHolder.pointToCircle,
+        filter: personalFilter
     });
-
-    fatalsLayerGroup.onclick = function(){
-        document.getElementById("info_loc").innerHTML = "Location: " + feature.properties['trafid1'];
-    }
 
     mapObject.addLayer(fatalsLayerGroup);
     mapObject.fitBounds(fatalsLayerGroup.getBounds());
