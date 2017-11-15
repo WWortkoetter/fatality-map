@@ -1,7 +1,7 @@
 "use strict";
 
 function personalFilter (feature, layer){
-    return (feature.properties["dthday"] >= 1 && feature.properties["dthday"] <= 31);
+    return (feature.properties.caseyear == 2006);// && feature.properties.dthday >= 1 && feature.properties["dthday"] <= 31);
   }
 
 var weatherdict = {
