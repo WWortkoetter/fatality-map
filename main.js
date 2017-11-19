@@ -1,9 +1,5 @@
 "use strict";
 
-function personalFilter (feature, layer){
-    return (feature.properties.caseyear == 2006);// && feature.properties.dthday >= 1 && feature.properties["dthday"] <= 31);
-  }
-
 var weatherdict = {
     "-1": "Blank",
     "0": "No Additional Atmospheric Conditions",
@@ -55,26 +51,36 @@ var genderdict = {
 
 //execute only when window is fully loaded
 window.onload = function () {
-    var myFunctionHolder = {};
+
+    document.getElementById("pure-toggle-right").checked = true;
+
+    function personalFilter(feature, layer) {
+        var yr = document.getElementById("yearval").value;
+        return (feature.properties.caseyear == yr && feature.properties.dthyear != 8888);
+    }    
+
     
+
+    var myFunctionHolder = {};
+
     //declaring popups function
     myFunctionHolder.addPopups = function (feature, layer) {
         var survived = '';
-        if (feature.properties['dthday'] == -1 || feature.properties['dthday'] == 88 || feature.properties['dthday'] == 99){
+        if (feature.properties.dthday == -1 || feature.properties.dthday == 88 || feature.properties.dthday == 99) {
             survived = 'Lived';
-        } 
+        }
         else {
             survived = 'Deceased';
         }
-    
+
         var years = '';
-        if (feature.properties['age'] == 999){
+        if (feature.properties['age'] == 999) {
             years = 'Unknown';
         }
         else {
             years = feature.properties['age'];
         }
-    
+
         if (feature.properties) {
             layer.bindPopup(
                 "<b>Date of accident: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear
@@ -87,7 +93,7 @@ window.onload = function () {
             );
         }
     }
-    
+
     //declaring point function
     myFunctionHolder.pointToCircle = function (feature, latlng) {
         var geojsonMarkerOptions = {
@@ -99,7 +105,7 @@ window.onload = function () {
             fillOpacity: .8
         };
         var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
-        circleMarker.on('click', function(){
+        circleMarker.on('click', function () {
             document.getElementById("info_casenum").innerHTML = "<b>Case Number: </b>" + feature.properties.casenum;
             document.getElementById("info_date").innerHTML = "<b>Date: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear;
             document.getElementById("info_loc").innerHTML = "<b>Location: </b>" + feature.properties.trafid1;
@@ -108,13 +114,13 @@ window.onload = function () {
             document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
             document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
             document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
-            if (feature.properties.alcres >= 100){
+            if (feature.properties.alcres >= 100) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
             }
-            else if (feature.properties.alcres >= 10){
+            else if (feature.properties.alcres >= 10) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.0" + feature.properties.alcres + "%";
             }
-            else if (feature.properties.alcres == 0){
+            else if (feature.properties.alcres == 0) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0%";
             }
             else {
@@ -132,9 +138,9 @@ window.onload = function () {
     }).addTo(mapObject);
 
     var satToggle = document.getElementById("satToggle");
-    satToggle.onclick = function() {
-        if(!document.getElementById("unchecked3").checked){ // set map to satellite when toggle is on
-            if (mapObject.hasLayer(baseMap)){
+    satToggle.onclick = function () {
+        if (!document.getElementById("unchecked3").checked) { // set map to satellite when toggle is on
+            if (mapObject.hasLayer(baseMap)) {
                 mapObject.removeLayer(baseMap);
             }
             // sat map
@@ -143,12 +149,12 @@ window.onload = function () {
                 attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy;"
             }).addTo(mapObject);
             document.getElementById("unchecked3").checked = true;
-            
+
         }
         else { // set map to dark theme when toggle is off
-            if (mapObject.hasLayer(baseMap)){
+            if (mapObject.hasLayer(baseMap)) {
                 mapObject.removeLayer(baseMap);
-            }            
+            }
             // dark map
             baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/sinba/ciperkjzk001jb6mdcb41o922/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2luYmEiLCJhIjoiY2loMWF6czQxMHdwcnZvbTNvMjVhaWV0MyJ9.zu-djzdfyr3C_Uj2F7noqg', {
                 maxZoom: 18,
@@ -168,14 +174,25 @@ window.onload = function () {
     mapObject.addLayer(fatalsLayerGroup);
     mapObject.fitBounds(fatalsLayerGroup.getBounds());
 
+    document.getElementById("yearval").onchange = function () {
+        mapObject.removeLayer(fatalsLayerGroup);
+        fatalsLayerGroup = L.geoJSON(fatalities, {
+            onEachFeature: myFunctionHolder.addPopups,
+            pointToLayer: myFunctionHolder.pointToCircle,
+            filter: personalFilter
+        });
+        mapObject.addLayer(fatalsLayerGroup);
+        mapObject.fitBounds(fatalsLayerGroup.getBounds());
+    }
+
     // clusters
     var clusters = L.markerClusterGroup();
     clusters.addLayer(fatalsLayerGroup);
 
     // button to toggle clusters
     var clustertoggle = document.getElementById("clusterToggle");
-    clustertoggle.onclick = function() {
-        if (!document.getElementById("unchecked2").checked){
+    clustertoggle.onclick = function () {
+        if (!document.getElementById("unchecked2").checked) {
             mapObject.addLayer(clusters);
             document.getElementById("unchecked2").checked = true;
         }
@@ -214,8 +231,8 @@ window.onload = function () {
 
     // button to toggle heatmap
     var heattoggle = document.getElementById("heatmapToggle");
-    heattoggle.onclick = function() {
-        if (!document.getElementById("unchecked1").checked){
+    heattoggle.onclick = function () {
+        if (!document.getElementById("unchecked1").checked) {
             mapObject.addLayer(heatmapLayer);
             document.getElementById("unchecked1").checked = true;
         }
@@ -224,6 +241,4 @@ window.onload = function () {
             document.getElementById("unchecked1").checked = false;
         }
     }
-
-    
 };
