@@ -25,7 +25,7 @@ dt {
     position: relative;
     padding: 5px;
     color: #adff2f;
-    margin: 0 0 20px 0;
+    height: 350px;
 }
 
 #sidebarContent h1 {
@@ -51,9 +51,10 @@ dt {
 #author {
     font-size: 10pt;
     color: #adff2f;
-    position: absolute;
+    position: relative;
     bottom: 0;
     padding: 5px 0 5px 5px;
+    text-align: center;
 }
 
 #switch {
