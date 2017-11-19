@@ -174,19 +174,12 @@ window.onload = function () {
     mapObject.addLayer(fatalsLayerGroup);
     mapObject.fitBounds(fatalsLayerGroup.getBounds());
 
-    document.getElementById("yearval").onchange = function () {
-        mapObject.removeLayer(fatalsLayerGroup);
-        fatalsLayerGroup = L.geoJSON(fatalities, {
-            onEachFeature: myFunctionHolder.addPopups,
-            pointToLayer: myFunctionHolder.pointToCircle,
-            filter: personalFilter
-        });
-        mapObject.addLayer(fatalsLayerGroup);
-        mapObject.fitBounds(fatalsLayerGroup.getBounds());
-    }
+    
 
     // clusters
-    var clusters = L.markerClusterGroup();
+    var clusters = L.markerClusterGroup({
+        filter: personalFilter
+    });
     clusters.addLayer(fatalsLayerGroup);
 
     // button to toggle clusters
@@ -240,5 +233,19 @@ window.onload = function () {
             mapObject.removeLayer(heatmapLayer);
             document.getElementById("unchecked1").checked = false;
         }
+    }
+
+    // year picker
+    document.getElementById("yearval").onchange = function () {
+        mapObject.removeLayer(fatalsLayerGroup);
+        clusters.removeLayer(fatalsLayerGroup);
+        fatalsLayerGroup = L.geoJSON(fatalities, {
+            onEachFeature: myFunctionHolder.addPopups,
+            pointToLayer: myFunctionHolder.pointToCircle,
+            filter: personalFilter
+        });
+        mapObject.addLayer(fatalsLayerGroup);
+        mapObject.fitBounds(fatalsLayerGroup.getBounds());
+        clusters.addLayer(fatalsLayerGroup);
     }
 };
