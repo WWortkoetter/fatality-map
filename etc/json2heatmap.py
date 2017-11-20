@@ -30813,7 +30813,7 @@ fatalities = {
     "type": "Feature",
     "geometry": {
        "type": "Point",
-       "coordinates":  [ -83.01626111,39.09048056 ]
+       "coordinates":  [ -83.1626111,39.9048056 ]
     },
     "properties": {
     "statenum":39,
@@ -154769,11 +154769,11 @@ fatalities = {
 os.chdir('/Personal/College/2017-2018/Autumn 2017/Geography 5201/GeovisProject/Map/')
 f = open('tmp.txt', 'w')
 
-testyear = 2006
+testyear = 'allyears'
 
 maxval = 0
 for x in fatalities['features']:
-  if x['properties']['caseyear'] == testyear:
+  if x['properties']['caseyear'] != testyear:
     if x['properties']['numfatal'] > maxval:
       maxval = x['properties']['numfatal']
 
@@ -154782,7 +154782,7 @@ print("maxval: " + str(maxval))
 
 fatalities2 = []
 for x in fatalities['features']:
-  if x['properties']['caseyear'] == testyear:
+  if x['properties']['caseyear'] != testyear:
     fatalities2.append({"\"lng\": " + repr(x['geometry']['coordinates'][0]) + ", \"lat\": " + repr(x['geometry']['coordinates'][1]) + ", \"numfatal\": " + repr(x['properties']['numfatal'])})
     
 #print(fatalities2)

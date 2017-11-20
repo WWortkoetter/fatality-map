@@ -50,6 +50,7 @@ var genderdict = {
 }
 
 var yeardict = {
+    "all": heatall,
     "2016": heat2016,
     "2015": heat2015,
     "2014": heat2014,
@@ -71,7 +72,10 @@ window.onload = function () {
     function personalFilter(feature, layer) {
         var yr = document.getElementById("yearval").value;
         //return (feature.properties.caseyear == yr && feature.properties.dthday >= 1 && feature.properties.dthday <= 31);
-        return (feature.properties.caseyear == yr && feature.properties.dthyr != 8888);
+        if (yr == "all"){
+            return (feature.properties.dthyr != 8888 && feature.properties.dthyr != 0);
+        }
+        return (feature.properties.caseyear == yr && feature.properties.dthyr != 8888 && feature.properties.dthyr != 0);
     }    
 
     var myFunctionHolder = {};
@@ -103,8 +107,9 @@ window.onload = function () {
                 + "<br><b>Sex: </b>" + genderdict[feature.properties.sex]
                 + "<br><b>Race: </b>" + racedict[feature.properties.race]
                 + "<br><b>Weather: </b>" + weatherdict[feature.properties.atmcond]
-                + "<br><b>Lat: </b>" + feature.geometry.coordinates[0]
-                + "<br><b>Lon: </b>" + feature.geometry.coordinates[1]
+                //+ "<br><b>Lat: </b>" + feature.geometry.coordinates[0]
+                //+ "<br><b>Lon: </b>" + feature.geometry.coordinates[1]
+                //+ "<br><b>dthyr: </b>" + feature.properties.dthyr
                 //+ "<br><b>Status: </b>" + survived
             );
         }
@@ -130,7 +135,7 @@ window.onload = function () {
             document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
             document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
             document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
-            if (feature.properties.alcres == 996) {
+            if (feature.properties.alcres == 996 || feature.properties.alcres == 96) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> Unknown";
             }
             else if (feature.properties.alcres >= 100) {
@@ -223,7 +228,7 @@ window.onload = function () {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
         "radius": .015,
-        "maxOpacity": .8,
+        "maxOpacity": .5,
         // scales the radius based on map zoom
         "scaleRadius": true,
         // if set to false the heatmap uses the global maximum for colorization
