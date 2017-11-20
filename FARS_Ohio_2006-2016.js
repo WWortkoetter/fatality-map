@@ -30811,7 +30811,7 @@
     "type": "Feature",
     "geometry": {
        "type": "Point",
-       "coordinates":  [ -83.01626111,39.09048056 ]
+       "coordinates":  [ -83.1626111,39.9048056 ]
     },
     "properties": {
     "statenum":39,

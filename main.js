@@ -49,6 +49,20 @@ var genderdict = {
     "9": "Unknown"
 }
 
+var yeardict = {
+    "2016": heat2016,
+    "2015": heat2015,
+    "2014": heat2014,
+    "2013": heat2013,
+    "2012": heat2012,
+    "2011": heat2011,
+    "2010": heat2010,
+    "2009": heat2009,
+    "2008": heat2008,
+    "2007": heat2007,
+    "2006": heat2006
+}
+
 //execute only when window is fully loaded
 window.onload = function () {
 
@@ -56,10 +70,9 @@ window.onload = function () {
 
     function personalFilter(feature, layer) {
         var yr = document.getElementById("yearval").value;
-        return (feature.properties.caseyear == yr && feature.properties.dthyear != 8888);
+        //return (feature.properties.caseyear == yr && feature.properties.dthday >= 1 && feature.properties.dthday <= 31);
+        return (feature.properties.caseyear == yr && feature.properties.dthyr != 8888);
     }    
-
-    
 
     var myFunctionHolder = {};
 
@@ -89,7 +102,10 @@ window.onload = function () {
                 + "<br><b>Age: </b>" + years
                 + "<br><b>Sex: </b>" + genderdict[feature.properties.sex]
                 + "<br><b>Race: </b>" + racedict[feature.properties.race]
-                + "<br><b>Status: </b>" + survived
+                + "<br><b>Weather: </b>" + weatherdict[feature.properties.atmcond]
+                + "<br><b>Lat: </b>" + feature.geometry.coordinates[0]
+                + "<br><b>Lon: </b>" + feature.geometry.coordinates[1]
+                //+ "<br><b>Status: </b>" + survived
             );
         }
     }
@@ -107,14 +123,17 @@ window.onload = function () {
         var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
         circleMarker.on('click', function () {
             document.getElementById("info_casenum").innerHTML = "<b>Case Number: </b>" + feature.properties.casenum;
-            document.getElementById("info_date").innerHTML = "<b>Date: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear;
+            document.getElementById("info_date").innerHTML = "<b>Date of Accident: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear;
             document.getElementById("info_loc").innerHTML = "<b>Location: </b>" + feature.properties.trafid1;
             document.getElementById("info_age").innerHTML = "<b>Age: </b>" + feature.properties.age;
             document.getElementById("info_numfatal").innerHTML = "<b>Number of Fatalities: </b>" + feature.properties.numfatal;
             document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
             document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
             document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
-            if (feature.properties.alcres >= 100) {
+            if (feature.properties.alcres == 996) {
+                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> Unknown";
+            }
+            else if (feature.properties.alcres >= 100) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
             }
             else if (feature.properties.alcres >= 10) {
@@ -216,11 +235,13 @@ window.onload = function () {
         // which field name in your data represents the longitude - default "lng"
         lngField: 'lng',
         // which field name in your data represents the data value - default "value"
-        valueField: 'value'
+        valueField: 'numfatal',
     };
 
+    
     var heatmapLayer = new HeatmapOverlay(cfg);
-    heatmapLayer.setData(fatalitiesHeatmapData);
+
+    heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);
 
     // button to toggle heatmap
     var heattoggle = document.getElementById("heatmapToggle");
@@ -239,6 +260,8 @@ window.onload = function () {
     document.getElementById("yearval").onchange = function () {
         mapObject.removeLayer(fatalsLayerGroup);
         clusters.removeLayer(fatalsLayerGroup);
+        //heatmapLayer = new HeatmapOverlay(cfg);
+        heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);        
         fatalsLayerGroup = L.geoJSON(fatalities, {
             onEachFeature: myFunctionHolder.addPopups,
             pointToLayer: myFunctionHolder.pointToCircle,
