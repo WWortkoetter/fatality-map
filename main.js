@@ -163,16 +163,16 @@ window.onload = function () {
 
     var satToggle = document.getElementById("satToggle");
     satToggle.onclick = function () {
-        if (!document.getElementById("unchecked3").checked) { // set map to satellite when toggle is on
+        if (!document.getElementById("unchecked4").checked) { // set map to satellite when toggle is on
             if (mapObject.hasLayer(baseMap)) {
                 mapObject.removeLayer(baseMap);
             }
             // sat map
-            baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/wwortkoetter/cj9rq59ip1bv72smp6cqi0ymq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3dvcnRrb2V0dGVyIiwiYSI6ImNqNnpnbDJkbDAwNWsycm15ZzI2dW1rc2cifQ.z6g-MJ7zdh699j4x_4U80Q', {
+            baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/erkraus/cj9qdvp6o034n2sk6uc26w51p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZXJrcmF1cyIsImEiOiJjajlxYm1hMDM2MG45MnFzNDU3dzgzcmVzIn0.xr26eepd9OU-2qebI9xWrw', {
                 maxZoom: 18,
                 attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy;"
             }).addTo(mapObject);
-            document.getElementById("unchecked3").checked = true;
+            document.getElementById("unchecked4").checked = true;
 
         }
         else { // set map to dark theme when toggle is off
@@ -184,7 +184,7 @@ window.onload = function () {
                 maxZoom: 18,
                 attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy;"
             }).addTo(mapObject);
-            document.getElementById("unchecked3").checked = false;
+            document.getElementById("unchecked4").checked = false;
         }
     }
 
@@ -209,15 +209,15 @@ window.onload = function () {
     // button to toggle clusters
     var clustertoggle = document.getElementById("clusterToggle");
     clustertoggle.onclick = function () {
-        if (!document.getElementById("unchecked2").checked) {
+        if (!document.getElementById("unchecked3").checked) {
             mapObject.addLayer(clusters);
-            document.getElementById("unchecked2").checked = true;
+            document.getElementById("unchecked3").checked = true;
         }
         else {
             mapObject.removeLayer(clusters);
             mapObject.removeLayer(fatalsLayerGroup);
             mapObject.addLayer(fatalsLayerGroup);
-            document.getElementById("unchecked2").checked = false;
+            document.getElementById("unchecked3").checked = false;
         }
     }
 
@@ -248,18 +248,34 @@ window.onload = function () {
 
     heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);
 
-    // button to toggle heatmap
-    var heattoggle = document.getElementById("heatmapToggle");
-    heattoggle.onclick = function () {
+    //button to toggle points
+    var pointtoggle = document.getElementById("pointToggle");
+    pointtoggle.onclick = function () {
         if (!document.getElementById("unchecked1").checked) {
-            mapObject.addLayer(heatmapLayer);
+            mapObject.removeLayer(fatalsLayerGroup);
             document.getElementById("unchecked1").checked = true;
         }
         else {
-            mapObject.removeLayer(heatmapLayer);
+            
+            mapObject.addLayer(fatalsLayerGroup);
             document.getElementById("unchecked1").checked = false;
         }
+    };
+    // button to toggle heatmap
+    var heattoggle = document.getElementById("heatmapToggle");
+    heattoggle.onclick = function () {
+        if (!document.getElementById("unchecked2").checked) {
+            mapObject.addLayer(heatmapLayer);
+            document.getElementById("unchecked2").checked = true;
+        }
+        else {
+            mapObject.removeLayer(heatmapLayer);
+            document.getElementById("unchecked2").checked = false;
+        }
     }
+
+  
+   
 
     // year picker
     document.getElementById("yearval").onchange = function () {
@@ -277,3 +293,5 @@ window.onload = function () {
         clusters.addLayer(fatalsLayerGroup);
     }
 };
+
+
