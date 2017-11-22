@@ -43,14 +43,31 @@
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
                         <h1>Crash Mapper v0.3</h1>
-
-
+                        <div id="onOff">
+                                <p>On/Off</p>
+                                
+                            </div>
+                        
+                        
+                        <div id="switch">
+                                
+                            <div class="cntr">
+                                <a>Toggle Points</a>
+                                </a>
+                                <span id="pointToggle">
+                                    <div class="row press">
+                                        <input type="checkbox" id="unchecked1" class="cbx hidden" />
+                                        <label for="unchecked" class="lbl"></label>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
                         <div id="switch">
                             <div class="cntr">
                                 <a>Toggle Heatmap</a>
                                 <span id="heatmapToggle">
                                     <div class="row press">
-                                        <input type="checkbox" id="unchecked1" class="cbx hidden" />
+                                        <input type="checkbox" id="unchecked2" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
                                     </div>
                                 </span>
@@ -62,7 +79,7 @@
                                 <a>Toggle Clusters</a>
                                 <span id="clusterToggle">
                                     <div class="row press">
-                                        <input type="checkbox" id="unchecked2" class="cbx hidden" />
+                                        <input type="checkbox" id="unchecked3" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
                                     </div>
                                 </span>
@@ -74,7 +91,7 @@
                                 <a>Toggle Satellite</a>
                                 <span id="satToggle">
                                     <div class="row press">
-                                        <input type="checkbox" id="unchecked3" class="cbx hidden" />
+                                        <input type="checkbox" id="unchecked4" class="cbx hidden" />
                                         <label for="unchecked" class="lbl"></label>
                                     </div>
                                 </span>
@@ -144,7 +161,7 @@
                     // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
                     // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
                     // data/FARS_Ohio_2001-2016.csv
-                    Plotly.d3.csv('data/FARS_Data_FranklinCounty_2016_AllVariables.csv', function (err, rows) {
+                    Plotly.d3.csv('data/FARS_Ohio_2001-2016.csv', function (err, rows) {
 
                         function unpack(rows, key) {
                             return rows.map(function (row) {
