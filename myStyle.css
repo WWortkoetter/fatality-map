@@ -37,6 +37,11 @@ dt {
     font-size: 10pt;
     display: inline;
 }
+#onOff {
+    position: relative;
+    margin-left: 195px;
+    font-size: 7.5pt;
+}
 
 #leftList {
     width: 50%;
@@ -44,6 +49,7 @@ dt {
 }
 
 #rightList {
+    
     float: right;
     width: 50%;
 }
@@ -60,8 +66,8 @@ dt {
 
 #switch {
     position: relative;
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 22px;
 }
 
 #switch a{
