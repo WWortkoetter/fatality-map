@@ -64,6 +64,18 @@ var yeardict = {
     "2006": heat2006
 }
 
+var lightdict = {
+    "-1": "Blank",
+    "1": "Daylight",
+    "2": "Dark - Not Lighted",
+    "3": "Dark - Lighted",
+    "4": "Dawn",
+    "5": "Dusk",
+    "6": "Dark - Unknown Lighting",
+    "7": "Other",
+    "8": "Not Reported",
+    "9": "Unknown"
+}
 //execute only when window is fully loaded
 window.onload = function () {
 
@@ -133,16 +145,17 @@ window.onload = function () {
             document.getElementById("info_age").innerHTML = "<b>Age: </b>" + feature.properties.age;
             document.getElementById("info_numfatal").innerHTML = "<b>Number of Fatalities: </b>" + feature.properties.numfatal;
             document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
+            document.getElementById("info_light").innerHTML = "<b>Lighting: </b>" + lightdict[feature.properties.lightcond];
             document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
             document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
-            if (feature.properties.alcres == 996 || feature.properties.alcres == 96) {
+            if (feature.properties.alcres == 996 || feature.properties.alcres == 96 || feature.properties.alcres == '.') {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> Unknown";
             }
             else if (feature.properties.alcres >= 100) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
             }
             else if (feature.properties.alcres >= 10) {
-                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.0" + feature.properties.alcres + "%";
+                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
             }
             else if (feature.properties.alcres == 0) {
                 document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0%";
@@ -256,11 +269,11 @@ window.onload = function () {
             document.getElementById("unchecked1").checked = true;
         }
         else {
-            
             mapObject.addLayer(fatalsLayerGroup);
             document.getElementById("unchecked1").checked = false;
         }
     };
+
     // button to toggle heatmap
     var heattoggle = document.getElementById("heatmapToggle");
     heattoggle.onclick = function () {
