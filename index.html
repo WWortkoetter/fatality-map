@@ -44,16 +44,13 @@
                     <div id="sidebarContent">
                         <h1>Crash Mapper v0.3</h1>
                         <div id="onOff">
-                                <p>On/Off</p>
-                                
-                            </div>
+                            <p>On/Off</p>        
+                        </div>
                         
                         
-                        <div id="switch">
-                                
+                        <div id="switch">        
                             <div class="cntr">
                                 <a>Toggle Points</a>
-                                </a>
                                 <span id="pointToggle">
                                     <div class="row press">
                                         <input type="checkbox" id="unchecked1" class="cbx hidden" />
@@ -62,6 +59,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div id="switch">
                             <div class="cntr">
                                 <a>Toggle Heatmap</a>
@@ -136,6 +134,9 @@
                                 </div>
                                 <div id="info_weather">
                                     <b>Weather: </b>
+                                </div>
+                                <div id="info_light">
+                                    <b>Lighting: </b>
                                 </div>
                             </div>
                             <div id="rightList">
@@ -214,7 +215,8 @@
                         var layout = {
                             // put variables here to change pcp size ('height: 500px;' etc)
                             title: 'Parallel Coordinate Plot',
-                            margin: { r: 40, t: 100, b: 50, l: 40 }
+                            margin: { r: 40, t: 100, b: 50, l: 40 },
+                            height: 300
                         };
 
                         Plotly.plot('pcpFrame', data, layout);
