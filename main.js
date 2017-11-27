@@ -94,20 +94,22 @@ window.onload = function () {
 
     //declaring popups function
     myFunctionHolder.addPopups = function (feature, layer) {
-        var survived = '';
-        if (feature.properties.dthday == -1 || feature.properties.dthday == 88 || feature.properties.dthday == 99) {
-            survived = 'Lived';
-        }
-        else {
-            survived = 'Deceased';
-        }
-
         var years = '';
-        if (feature.properties['age'] == 999) {
-            years = 'Unknown';
+        if (feature.properties.caseyear >= 2009){
+            if (feature.properties.age >= 998 || feature.properties.age == -1){
+                years = 'Unknown';
+            }
+            else {
+                years = feature.properties.age;
+            }
         }
         else {
-            years = feature.properties['age'];
+            if (feature.properties.age > 97 || feature.properties.age == -1){
+                years = 'Unknown'; 
+            }
+            else {
+                years = feature.properties.age;
+            }
         }
 
         if (feature.properties) {
@@ -120,10 +122,6 @@ window.onload = function () {
                 + "<br><b>Race: </b>" + racedict[feature.properties.race]
                 + "<br><b>Weather: </b>" + weatherdict[feature.properties.atmcond]
                 + "<br><b>Lighting: </b>" + lightdict[feature.properties.lightcond]
-                //+ "<br><b>Lat: </b>" + feature.geometry.coordinates[0]
-                //+ "<br><b>Lon: </b>" + feature.geometry.coordinates[1]
-                //+ "<br><b>dthyr: </b>" + feature.properties.dthyr
-                //+ "<br><b>Status: </b>" + survived
             );
         }
     }
@@ -144,7 +142,7 @@ window.onload = function () {
             document.getElementById("info_date").innerHTML = "<b>Date of Accident: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear;
             document.getElementById("info_loc").innerHTML = "<b>Location: </b>" + feature.properties.trafid1;
             if (feature.properties.caseyear >= 2009){
-                if (feature.properties.age == 998 || feature.properties.age == 999 || feature.properties.age == -1){
+                if (feature.properties.age >= 998 || feature.properties.age == -1){
                     document.getElementById("info_age").innerHTML = "<b>Age: </b>Unknown";
                 }
                 else {
