@@ -251,14 +251,15 @@ window.onload = function () {
     //button to toggle points
     var pointtoggle = document.getElementById("pointToggle");
     pointtoggle.onclick = function () {
-        if (!document.getElementById("unchecked1").checked) {
-            mapObject.removeLayer(fatalsLayerGroup);
-            document.getElementById("unchecked1").checked = true;
-        }
-        else {
-            
-            mapObject.addLayer(fatalsLayerGroup);
-            document.getElementById("unchecked1").checked = false;
+        if (!document.getElementById("unchecked1").checked){
+            if (!document.getElementById("unchecked1").checked) {
+                mapObject.removeLayer(fatalsLayerGroup);
+                document.getElementById("unchecked1").checked = true;
+            }
+            else {
+                mapObject.addLayer(fatalsLayerGroup);
+                document.getElementById("unchecked1").checked = false;
+            }
         }
     };
     // button to toggle heatmap
