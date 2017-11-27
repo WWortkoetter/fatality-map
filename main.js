@@ -245,20 +245,7 @@ window.onload = function () {
     });
     clusters.addLayer(fatalsLayerGroup);
 
-    // button to toggle clusters
-    var clustertoggle = document.getElementById("clusterToggle");
-    clustertoggle.onclick = function () {
-        if (!document.getElementById("unchecked3").checked) {
-            mapObject.addLayer(clusters);
-            document.getElementById("unchecked3").checked = true;
-        }
-        else {
-            mapObject.removeLayer(clusters);
-            mapObject.removeLayer(fatalsLayerGroup);
-            mapObject.addLayer(fatalsLayerGroup);
-            document.getElementById("unchecked3").checked = false;
-        }
-    }
+    
 
     // heatmap
 
@@ -292,6 +279,8 @@ window.onload = function () {
     pointtoggle.onclick = function () {
         if (!document.getElementById("unchecked1").checked) {
             mapObject.removeLayer(fatalsLayerGroup);
+            mapObject.removeLayer(clusters);
+            document.getElementById("unchecked3").checked = false;
             document.getElementById("unchecked1").checked = true;
         }
         else {
@@ -299,6 +288,23 @@ window.onload = function () {
             document.getElementById("unchecked1").checked = false;
         }
     };
+
+    // button to toggle clusters
+    var clustertoggle = document.getElementById("clusterToggle");
+    clustertoggle.onclick = function () {
+        if (!document.getElementById("unchecked3").checked && !document.getElementById("unchecked1").checked) {
+            mapObject.addLayer(clusters);
+            document.getElementById("unchecked3").checked = true;
+        }
+        else {
+            mapObject.removeLayer(clusters);
+            mapObject.removeLayer(fatalsLayerGroup);
+            if (!document.getElementById("unchecked1").checked){
+                mapObject.addLayer(fatalsLayerGroup);
+            }
+            document.getElementById("unchecked3").checked = false;
+        }
+    }
 
     // button to toggle heatmap
     var heattoggle = document.getElementById("heatmapToggle");
@@ -313,14 +319,10 @@ window.onload = function () {
         }
     }
 
-  
-   
-
     // year picker
     document.getElementById("yearval").onchange = function () {
         mapObject.removeLayer(fatalsLayerGroup);
         clusters.removeLayer(fatalsLayerGroup);
-        //heatmapLayer = new HeatmapOverlay(cfg);
         heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);        
         fatalsLayerGroup = L.geoJSON(fatalities, {
             onEachFeature: myFunctionHolder.addPopups,
@@ -329,6 +331,9 @@ window.onload = function () {
         });
         mapObject.addLayer(fatalsLayerGroup);
         mapObject.fitBounds(fatalsLayerGroup.getBounds());
+        if (document.getElementById("unchecked1").checked){
+            mapObject.removeLayer(fatalsLayerGroup);
+        }
         clusters.addLayer(fatalsLayerGroup);
     }
 };
