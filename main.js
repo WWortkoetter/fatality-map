@@ -154,7 +154,7 @@ window.onload = function () {
         return circleMarker;
     }
 
-    var mapObject = L.map('mapDivId').setView([39.961, -82.998], 11);
+    var mapObject = L.map('mapDivId').setView([39.961, -82.89], 11);
 
     var baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/erkraus/cjahqt4zb97sk2spesjpgheb1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZXJrcmF1cyIsImEiOiJjajlxYm1hMDM2MG45MnFzNDU3dzgzcmVzIn0.xr26eepd9OU-2qebI9xWrw', {
         maxZoom: 18,
@@ -196,7 +196,7 @@ window.onload = function () {
     });
 
     mapObject.addLayer(fatalsLayerGroup);
-    mapObject.fitBounds(fatalsLayerGroup.getBounds());
+    
 
     
 
@@ -289,7 +289,7 @@ window.onload = function () {
             filter: personalFilter
         });
         mapObject.addLayer(fatalsLayerGroup);
-        mapObject.fitBounds(fatalsLayerGroup.getBounds());
+        
         clusters.addLayer(fatalsLayerGroup);
     }
 };
