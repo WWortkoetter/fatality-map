@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Crash Mapper</title>
+    <title>Crash Mapper v1.0</title>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="leaflet/leaflet.css" />
     <link rel="stylesheet" href="leaflet/MarkerCluster.css" />
@@ -42,13 +42,16 @@
 
                 <div id="sidebarFrame">
                     <div id="sidebarContent">
-                        <h1>Crash Mapper v0.4</h1>
+                        <span id="titleInfo">
+                            <h1>Crash Mapper v1.0</h1>
+                            <button id="infoButton">Info</button>
+                        </span>
                         <div id="onOff">
-                            <p>Off/On</p>        
+                            <p>Off/On</p>
                         </div>
-                        
-                        
-                        <div id="switch">        
+
+
+                        <div id="switch">
                             <div class="cntr">
                                 <a>Hide Points</a>
                                 <span id="pointToggle">
@@ -162,6 +165,7 @@
                     // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
                     // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
                     // data/FARS_Ohio_2001-2016.csv
+
                     Plotly.d3.csv('data/FARS_Ohio_2006-2016.csv', function (err, rows) {
 
                         function unpack(rows, key) {
@@ -213,22 +217,41 @@
                             }]
                         }];
 
-                        var layout = {
-                            // put variables here to change pcp size ('height: 500px;' etc)
-                            title: 'Parallel Coordinate Plot (All Years)',
-                            margin: { r: 40, t: 100, b: 40, l: 40 },
-                            height: 300
-                        };
+                        var w = window,
+                            d = document,
+                            e = d.documentElement,
+                            g = d.getElementsByTagName('body')[0],
+                            x = w.innerWidth || e.clientWidth || g.clientWidth,
+                            y = w.innerHeight || e.clientHeight || g.clientHeight;
+                        
+                        var layout = {};
+                        if (x >= 1400){
+                            layout = {
+                                // put variables here to change pcp size ('height: 500px;' etc)
+                                title: 'Parallel Coordinate Plot (All Years)',
+                                margin: { r: 40, t: 100, b: 40, l: 40 },
+                                height: 500
+                            }
+                        }
+                        else if(x >= 900){
+                            layout = {
+                                title: 'Parallel Coordinate Plot (All Years)',
+                                margin: { r: 40, t: 100, b: 40, l: 40 },
+                                height: 325
+                            }
+                        }
 
                         Plotly.plot('pcpFrame', data, layout);
                     });
                 </script>
+                <!-- 
                 <div id="author">
                     Created by Wyatt Wortkoetter and Evan Kraus
                     <br>Geography 5201 - Geovisualization
                     <br>Prof. Morteza Karimzadeh
                     <br>The Ohio State University
                 </div>
+                -->
 
             </p>
         </nav>

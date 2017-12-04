@@ -82,6 +82,17 @@ window.onload = function () {
 
     document.getElementById("pure-toggle-right").checked = true;
 
+    var infobutton = document.getElementById("infoButton");
+    var desc1 = "Welcome to Crash Mapper.";
+    var desc2 = "\n\nThis application is designed to better visualize vehicular deaths in the Columbus area\nin an effort to better understand the connecting factors between these instances.";
+    var desc3 = "\n\nMake use of the many features of this application to better make correlations:\n - Hiding the points can be useful to declutter the map to better find points of interest.\n - Clustering can identify those points where 2 or more deaths occured.\n - The heatmap will paint the area with various colors to more easily highlight those areas with higher densities of fatalities.\n - The satellite toggle will change the map to a photographic view.";
+    var credits = "\n\nCreated by Wyatt Wortkeotter and Evan Kraus\nGeography 5201 - Geovisualization\nProf. Morteza Karimzadeh\nThe Ohio State University";
+    var infotext = desc1 + desc2 + desc3 + credits;
+    infobutton.onclick = function() {
+        //alert("Created by Wyatt Wortkoetter and Evan Kraus\nGeography 5201 - Geovisualization\nProf. Morteza Karimzadeh\nThe Ohio State University");
+        alert(infotext);
+    }
+
     function personalFilter(feature, layer) {
         var yr = document.getElementById("yearval").value;
         //return (feature.properties.caseyear == yr && feature.properties.dthday >= 1 && feature.properties.dthday <= 31);
@@ -158,6 +169,7 @@ window.onload = function () {
             }
             document.getElementById("info_numfatal").innerHTML = "<b>Number of Fatalities: </b>" + feature.properties.numfatal;
             document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
+            document.getElementById("info_light").innerHTML = "<b>Lighting: </b>" + lightdict[feature.properties.lightcond];
             document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
             document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
             if (feature.properties.caseyear >= 2015) {
@@ -193,7 +205,7 @@ window.onload = function () {
 
     var baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/erkraus/cjahqt4zb97sk2spesjpgheb1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZXJrcmF1cyIsImEiOiJjajlxYm1hMDM2MG45MnFzNDU3dzgzcmVzIn0.xr26eepd9OU-2qebI9xWrw', {
         maxZoom: 18,
-        attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy;"
+        attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy; Data from <a href='https://www-fars.nhtsa.dot.gov//QueryTool/QuerySection/SelectYear.aspx'>FARS</a>"
     }).addTo(mapObject);
 
     var satToggle = document.getElementById("satToggle");
@@ -205,7 +217,7 @@ window.onload = function () {
             // sat map
             baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/erkraus/cj9qdvp6o034n2sk6uc26w51p/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZXJrcmF1cyIsImEiOiJjajlxYm1hMDM2MG45MnFzNDU3dzgzcmVzIn0.xr26eepd9OU-2qebI9xWrw', {
                 maxZoom: 18,
-                attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy;"
+                attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy; Data from <a href='https://www-fars.nhtsa.dot.gov//QueryTool/QuerySection/SelectYear.aspx'>FARS</a>"
             }).addTo(mapObject);
             document.getElementById("unchecked4").checked = true;
 
@@ -217,7 +229,7 @@ window.onload = function () {
             // dark map
             baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/erkraus/cjahqt4zb97sk2spesjpgheb1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZXJrcmF1cyIsImEiOiJjajlxYm1hMDM2MG45MnFzNDU3dzgzcmVzIn0.xr26eepd9OU-2qebI9xWrw', {
                 maxZoom: 18,
-                attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy;"
+                attribution: "&copy; <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> &copy; Data from <a href='https://www-fars.nhtsa.dot.gov//QueryTool/QuerySection/SelectYear.aspx'>FARS</a>"
             }).addTo(mapObject);
             document.getElementById("unchecked4").checked = false;
         }

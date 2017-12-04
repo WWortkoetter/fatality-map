@@ -1,6 +1,8 @@
 @media screen and (min-width: 900px){
     h1 {
         font-size: 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;        
     }
     a {
         font-size: 14px;
@@ -9,11 +11,22 @@
         height: 300px;
         margin-bottom: 25px;
     }
+    #sidebarFrame {
+        margin-bottom: 80px;
+    }
+    #switch {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1400px){
     #sidebarContent {
         height: 400px;
         margin-bottom: 50px;
+    }
+    #switch {
+        margin-top: 10px;
+        margin-bottom: 22px;
     }
 }
 
@@ -35,7 +48,6 @@ dt {
     position: relative;
     right: 0;
     top: 0;
-    margin: 0 0 0 0;
     padding: 0;
     /*background-color: rgb(112, 112, 112);*/
 }
@@ -47,14 +59,24 @@ dt {
 }
 
 #sidebarContent h1 {
-    padding: 0 0 0 20px;
+    padding: 0 15px 0 10px;
+    display: inline;
 }
 
 #sidebarList {
     padding: 5px 0 5px 0;
     font-size: 10pt;
     display: inline;
+    color: #fff;
 }
+#sidebarList b{
+    color: #adff2f;
+}
+
+#titleInfo {
+    display: inline;
+}
+
 #onOff {
     position: relative;
     margin-left: 195px;
@@ -62,14 +84,14 @@ dt {
 }
 
 #leftList {
-    width: 50%;
+    width: 60%;
     display: inline-block;
 }
 
 #rightList {
     
     float: right;
-    width: 50%;
+    width: 40%;
 }
 
 #author {
@@ -84,8 +106,6 @@ dt {
 
 #switch {
     position: relative;
-    margin-top: 10px;
-    margin-bottom: 22px;
 }
 
 #switch a{
@@ -101,6 +121,8 @@ dt {
 
 
 #pcpFrame {
-    position: relative;
+    position: absolute;
     background-color: darkgray;
+    bottom: 0;
+    width:100%;
 }

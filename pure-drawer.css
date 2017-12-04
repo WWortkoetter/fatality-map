@@ -97,6 +97,7 @@ body {
   width: 35px;
   cursor: pointer;
   background: #5d809d;
+  
   display: block;
   content: '';
   -webkit-transition: all 500ms ease-in-out;
