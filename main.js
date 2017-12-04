@@ -64,6 +64,19 @@ var yeardict = {
     "2006": heat2006
 }
 
+var lightdict = {
+    "-1": "Blank",
+    "1": "Daylight",
+    "2": "Dark - Not Lighted",
+    "3": "Dark - Lighted",
+    "4": "Dawn",
+    "5": "Dusk",
+    "6": "Dark - Unknown Lighting",
+    "7": "Other",
+    "8": "Not Reported",
+    "9": "Unknown"
+}
+
 //execute only when window is fully loaded
 window.onload = function () {
 
@@ -72,11 +85,11 @@ window.onload = function () {
     function personalFilter(feature, layer) {
         var yr = document.getElementById("yearval").value;
         //return (feature.properties.caseyear == yr && feature.properties.dthday >= 1 && feature.properties.dthday <= 31);
-        if (yr == "all"){
+        if (yr == "all") {
             return (feature.properties.dthyr != 8888 && feature.properties.dthyr != 0);
         }
         return (feature.properties.caseyear == yr && feature.properties.dthyr != 8888 && feature.properties.dthyr != 0);
-    }    
+    }
 
     var myFunctionHolder = {};
 
@@ -91,11 +104,11 @@ window.onload = function () {
         }
 
         var years = '';
-        if (feature.properties['age'] == 999) {
+        if (feature.properties.age == 999) {
             years = 'Unknown';
         }
         else {
-            years = feature.properties['age'];
+            years = feature.properties.age;
         }
 
         if (feature.properties) {
@@ -107,10 +120,7 @@ window.onload = function () {
                 + "<br><b>Sex: </b>" + genderdict[feature.properties.sex]
                 + "<br><b>Race: </b>" + racedict[feature.properties.race]
                 + "<br><b>Weather: </b>" + weatherdict[feature.properties.atmcond]
-                //+ "<br><b>Lat: </b>" + feature.geometry.coordinates[0]
-                //+ "<br><b>Lon: </b>" + feature.geometry.coordinates[1]
-                //+ "<br><b>dthyr: </b>" + feature.properties.dthyr
-                //+ "<br><b>Status: </b>" + survived
+                + "<br><b>Lighting: </b>" + lightdict[feature.properties.lightcond]
             );
         }
     }
@@ -130,25 +140,50 @@ window.onload = function () {
             document.getElementById("info_casenum").innerHTML = "<b>Case Number: </b>" + feature.properties.casenum;
             document.getElementById("info_date").innerHTML = "<b>Date of Accident: </b>" + feature.properties.accmon + "/" + feature.properties.accday + "/" + feature.properties.caseyear;
             document.getElementById("info_loc").innerHTML = "<b>Location: </b>" + feature.properties.trafid1;
-            document.getElementById("info_age").innerHTML = "<b>Age: </b>" + feature.properties.age;
+            if (feature.properties.caseyear >= 2009) {
+                if (feature.properties.age == 998 || feature.properties.age == 999 || feature.properties.age == -1) {
+                    document.getElementById("info_age").innerHTML = "<b>Age: </b>Unknown";
+                }
+                else {
+                    document.getElementById("info_age").innerHTML = "<b>Age: </b>" + feature.properties.age;
+                }
+            }
+            else {
+                if (feature.properties.age > 97 || feature.properties.age == -1) {
+                    document.getElementById("info_age").innerHTML = "<b>Age: </b>Unknown";
+                }
+                else {
+                    document.getElementById("info_age").innerHTML = "<b>Age: </b>" + feature.properties.age;
+                }
+            }
             document.getElementById("info_numfatal").innerHTML = "<b>Number of Fatalities: </b>" + feature.properties.numfatal;
             document.getElementById("info_weather").innerHTML = "<b>Weather: </b>" + weatherdict[feature.properties.atmcond];
             document.getElementById("info_sex").innerHTML = "<b>Sex: </b>" + genderdict[feature.properties.sex];
             document.getElementById("info_race").innerHTML = "<b>Race: </b>" + racedict[feature.properties.race];
-            if (feature.properties.alcres == 996 || feature.properties.alcres == 96) {
-                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> Unknown";
-            }
-            else if (feature.properties.alcres >= 100) {
-                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
-            }
-            else if (feature.properties.alcres >= 10) {
-                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.0" + feature.properties.alcres + "%";
-            }
-            else if (feature.properties.alcres == 0) {
-                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0%";
+            if (feature.properties.caseyear >= 2015) {
+                if (feature.properties.alcres >= 995 || feature.properties.alcres == -1) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b>Unknown";
+                }
+                else if (feature.properties.alcres >= 100) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b>0." + feature.properties.alcres + "%";
+                }
+                else if (feature.properties.alcres >= 10) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.0" + feature.properties.alcres + "%";
+                }
+                else if (feature.properties.alcres >= 0) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.00" + feature.properties.alcres + "%";
+                }
             }
             else {
-                document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.00" + feature.properties.alcres + "%";
+                if (feature.properties.alcres >= 95 || feature.properties.alcres == -1) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b> Unknown";
+                }
+                else if (feature.properties.alcres >= 10) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0." + feature.properties.alcres + "%";
+                }
+                else if (feature.properties.alcres >= 0) {
+                    document.getElementById("info_bac").innerHTML = "<b>BAC: </b> 0.0" + feature.properties.alcres + "%";
+                }
             }
         })
         return circleMarker;
@@ -196,30 +231,12 @@ window.onload = function () {
     });
 
     mapObject.addLayer(fatalsLayerGroup);
-    
-
-    
 
     // clusters
     var clusters = L.markerClusterGroup({
         filter: personalFilter
     });
     clusters.addLayer(fatalsLayerGroup);
-
-    // button to toggle clusters
-    var clustertoggle = document.getElementById("clusterToggle");
-    clustertoggle.onclick = function () {
-        if (!document.getElementById("unchecked3").checked) {
-            mapObject.addLayer(clusters);
-            document.getElementById("unchecked3").checked = true;
-        }
-        else {
-            mapObject.removeLayer(clusters);
-            mapObject.removeLayer(fatalsLayerGroup);
-            mapObject.addLayer(fatalsLayerGroup);
-            document.getElementById("unchecked3").checked = false;
-        }
-    }
 
     // heatmap
 
@@ -243,7 +260,6 @@ window.onload = function () {
         valueField: 'numfatal',
     };
 
-    
     var heatmapLayer = new HeatmapOverlay(cfg);
 
     heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);
@@ -251,17 +267,35 @@ window.onload = function () {
     //button to toggle points
     var pointtoggle = document.getElementById("pointToggle");
     pointtoggle.onclick = function () {
-        if (!document.getElementById("unchecked1").checked){
-            if (!document.getElementById("unchecked1").checked) {
-                mapObject.removeLayer(fatalsLayerGroup);
-                document.getElementById("unchecked1").checked = true;
-            }
-            else {
-                mapObject.addLayer(fatalsLayerGroup);
-                document.getElementById("unchecked1").checked = false;
-            }
+        if (!document.getElementById("unchecked1").checked) {
+            mapObject.removeLayer(fatalsLayerGroup);
+            mapObject.removeLayer(clusters);
+            document.getElementById("unchecked3").checked = false;
+            document.getElementById("unchecked1").checked = true;
+        }
+        else {
+            mapObject.addLayer(fatalsLayerGroup);
+            document.getElementById("unchecked1").checked = false;
         }
     };
+
+    // button to toggle clusters
+    var clustertoggle = document.getElementById("clusterToggle");
+    clustertoggle.onclick = function () {
+        if (!document.getElementById("unchecked3").checked && !document.getElementById("unchecked1").checked) {
+            mapObject.addLayer(clusters);
+            document.getElementById("unchecked3").checked = true;
+        }
+        else {
+            mapObject.removeLayer(clusters);
+            mapObject.removeLayer(fatalsLayerGroup);
+            if (!document.getElementById("unchecked1").checked){
+                mapObject.addLayer(fatalsLayerGroup);
+            }
+            document.getElementById("unchecked3").checked = false;
+        }
+    };
+
     // button to toggle heatmap
     var heattoggle = document.getElementById("heatmapToggle");
     heattoggle.onclick = function () {
@@ -273,24 +307,23 @@ window.onload = function () {
             mapObject.removeLayer(heatmapLayer);
             document.getElementById("unchecked2").checked = false;
         }
-    }
-
-  
-   
+    };
 
     // year picker
     document.getElementById("yearval").onchange = function () {
         mapObject.removeLayer(fatalsLayerGroup);
         clusters.removeLayer(fatalsLayerGroup);
         //heatmapLayer = new HeatmapOverlay(cfg);
-        heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);        
+        heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);
         fatalsLayerGroup = L.geoJSON(fatalities, {
             onEachFeature: myFunctionHolder.addPopups,
             pointToLayer: myFunctionHolder.pointToCircle,
             filter: personalFilter
         });
         mapObject.addLayer(fatalsLayerGroup);
-        
+        if (document.getElementById("unchecked1").checked){
+            mapObject.removeLayer(fatalsLayerGroup);
+        }
         clusters.addLayer(fatalsLayerGroup);
     }
 };
