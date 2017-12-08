@@ -89,13 +89,11 @@ window.onload = function () {
     var credits = "\n\nCreated by Wyatt Wortkeotter and Evan Kraus\nGeography 5201 - Geovisualization\nProf. Morteza Karimzadeh\nThe Ohio State University";
     var infotext = desc1 + desc2 + desc3 + credits;
     infobutton.onclick = function() {
-        //alert("Created by Wyatt Wortkoetter and Evan Kraus\nGeography 5201 - Geovisualization\nProf. Morteza Karimzadeh\nThe Ohio State University");
         alert(infotext);
     }
 
     function personalFilter(feature, layer) {
         var yr = document.getElementById("yearval").value;
-        //return (feature.properties.caseyear == yr && feature.properties.dthday >= 1 && feature.properties.dthday <= 31);
         if (yr == "all") {
             return (feature.properties.dthyr != 8888 && feature.properties.dthyr != 0);
         }
@@ -325,7 +323,6 @@ window.onload = function () {
     document.getElementById("yearval").onchange = function () {
         mapObject.removeLayer(fatalsLayerGroup);
         clusters.removeLayer(fatalsLayerGroup);
-        //heatmapLayer = new HeatmapOverlay(cfg);
         heatmapLayer.setData(yeardict[document.getElementById("yearval").value]);
         fatalsLayerGroup = L.geoJSON(fatalities, {
             onEachFeature: myFunctionHolder.addPopups,

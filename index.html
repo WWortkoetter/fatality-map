@@ -15,11 +15,8 @@
     <link rel="stylesheet" href="toggle-button.css" />
     <link rel="stylesheet" href="myStyle.css" />
     <!-- Scripts -->
-    <!-- <script src="FARS_Data_FranklinCounty_AllVariables_2016.js"></script> -->
     <script src="FARS_Ohio_2006-2016.js"></script>
     <script src="heatmap-data.js"></script>
-    <!-- <script src="FARS_Ohio_2001-2016.js"></script> -->
-
     <script src="leaflet/leaflet.js"></script>
     <script src="leaflet/leaflet.markercluster-src.js"></script>
     <script src="heatmap.js"></script>
@@ -162,10 +159,6 @@
                 </div>
                 <div id="pcpFrame"></div>
                 <script>
-                    // https://raw.githubusercontent.com/bcdunbar/datasets/master/iris.csv
-                    // data/FARS_Data_FranklinCounty_2016_AllVariables.csv
-                    // data/FARS_Ohio_2001-2016.csv
-
                     Plotly.d3.csv('data/FARS_Ohio_2006-2016.csv', function (err, rows) {
 
                         function unpack(rows, key) {
